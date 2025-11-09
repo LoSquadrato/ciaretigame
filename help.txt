@@ -1,0 +1,3 @@
+HELP_IT = "aggiungere le regole in italiano"
+
+HELP_EN = "add game rule in english"
