@@ -30,9 +30,9 @@ class Player:
         for k, card in self.hand.items():
             print(f'{k} -> {card}')
         if len(pot)>0:
-            first_seed = pot[0].seed
+            lead_suit = pot[0].suit
             for card in self.hand.values():
-                card.is_legit = (card.seed == first_seed)
+                card.is_legit = (card.suit == lead_suit)
         print(f'{self.name} choose your card:')
         card = valid_input_card(self.hand)
         print(f'{self.name} play: {card}')
@@ -41,7 +41,7 @@ class Player:
     def empty_pot(self, pot):
         for c in pot:
             c.player = self.name
-            if c.seed == SEED[0]:
+            if c.suit == SUIT[0]:
                 self.score += c.value
         self.taken.extend(pot)
         pot.clear()
@@ -83,6 +83,6 @@ def check_winner(pot):
         return None
     winner_card = pot[0]
     for c in pot[1:]:
-        if c.seed == winner_card.seed and c.value > winner_card.value:
+        if c.suit == winner_card.suit and c.value > winner_card.value:
                 winner_card = c
     return winner_card.player

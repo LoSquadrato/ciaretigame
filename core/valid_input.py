@@ -1,9 +1,6 @@
 
 from core.costants import MAX_NAME_LENGHT
 
-# funzione check_input se uno scrive help gli copio il manuale
-# altrimenti enum dei diversi input
-
 def valid_input_card(hand):
         
     while True:

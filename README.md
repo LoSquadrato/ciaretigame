@@ -18,8 +18,8 @@ Ciareti uses a **traditional 40-card Italian deck**, divided into four suits:
 **BASTONI (Clubs)**, **COPPE (Cups)**, **DENARI (Coins)**, and **SPADE (Swords)** —  
 each suit contains cards from **1 to 10**.
 
-
-> Treviso-style decks are bright and colorful —  
+![cards](https://github.com/LoSquadrato/ciaretigame/blob/main/assets/cards.jpg =250x)
+>Treviso-style decks are bright and colorful —  
 > every number corresponds to a group of cups, coins, clubs, or swords.
 
 ---
@@ -52,7 +52,7 @@ each suit contains cards from **1 to 10**.
 
 Here’s where *Ciareti* stands apart:
 
-> 🌀 **The player with the FEWEST points wins!**
+### 🌀 **The player with the FEWEST points wins!**
 
 Your goal is to **avoid scoring**, not to chase points.  
 Try to win hands *without collecting any DENARI*, or dodge victory altogether.
@@ -79,6 +79,7 @@ source .venv/bin/activate   # On Windows: .venv\Scripts\activate
 
 # 4. Run the game
 python main.py
+```
 
 Enjoy your descent into strategic madness! 😁
 

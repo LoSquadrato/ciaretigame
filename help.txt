@@ -1,3 +1,19 @@
-HELP_IT = "aggiungere le regole in italiano"
+1. **Deal the entire deck** evenly among the players.  
+   Each player may look at all their cards.
 
-HELP_EN = "add game rule in english"
+2. The **first player** plays a card — this sets the **leading suit** for that round.
+
+3. On each turn:
+   - You **must play a card of the same suit** if you have one.  
+   - If you don’t, play *any* card.  
+   - To **win the trick**, play a card of the same suit with a **higher value** than the leading card.
+
+4. Once all players have played, the **highest card of the leading suit** wins the round.  
+   The winner collects the cards into their personal pile.
+
+5. The winner of the trick **leads the next round**.
+
+6. After all cards are played, count the **DENARI (Coins)** cards you’ve collected:  
+   Each DENARI card gives **points equal to its value** 
+
+7. The player who **won no tricks at all** scores **55 points**.

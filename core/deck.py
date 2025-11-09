@@ -1,4 +1,4 @@
-from core.costants import SEED
+from core.costants import SUIT
 from core.player import Player
 import random
 
@@ -22,7 +22,7 @@ def deck_builder(suit):
     return deck
 
 def initial_hand(players):
-        deck = deck_builder(SEED)
+        deck = deck_builder(SUIT)
         random.shuffle(deck)
         while len(deck)>0:
             for p in players:

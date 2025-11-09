@@ -1,6 +1,6 @@
-from assets.deck import initial_hand
-from assets.player import players_in_game
-from assets.round import play_round
+from core.deck import initial_hand
+from core.player import players_in_game
+from core.round import play_round
 import os 
 import sys
 
@@ -8,9 +8,6 @@ import sys
 def main():
     print("Welcome gamer, Ciareti awaits you!!!")
 
-# richiesta di inserimento del numero di giocatori umani e nome di ognuno.
-# il resto vengono sostituito dall'AI
-# 
     if len(sys.argv) > 1:
         if sys.argv[1] == 'help':
             with open('help.txt') as f:
@@ -25,14 +22,6 @@ def main():
             print(f'ERROR! {e}')
             sys.exit(1)
 
-
-
-'''
-if not player_name isinstance(str):
-        print(f'ERROR: {player_name} is an invalid player name')
-    else:
-        print('Start game')
-'''
 
 
 
