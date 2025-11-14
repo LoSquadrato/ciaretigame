@@ -11,4 +11,5 @@ wheels/
 
 # my file
 instruction.txt
-assets/test.py
+tests.py
+ai_bot_pseudocode.txt

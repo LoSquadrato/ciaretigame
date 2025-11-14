@@ -1,26 +1,24 @@
 
 from core.costants import MAX_NAME_LENGHT
 
-def valid_input_card(hand):
-        
+def valid_input_card(hand, legit_cards):  
     while True:
         try:
             pos = int(input('enter the number refered to the card you choose\n'))
         except ValueError:
             print('Sorry wrong digit')
             continue
-        if drop_rule(pos, hand):
+        if is_legit(pos - 1, hand, legit_cards):
             if conf_input('Are you sure?\n y/N'):
                 break
             continue
         else:
             print('Sorry this is not a valid answer')
             continue
-    return hand[pos]
+    return hand[pos - 1]
        
         
 def valid_input_name():
-    
     while True:
         try:
             name = str(input('What\'s your name?\n'))
@@ -53,12 +51,13 @@ def conf_input(txt):
             print('Sorry this is not a valid answer')
             continue
 
-def drop_rule(pos, hand):
-    for i, v in hand.items():
-        if i == pos:
-            if v.is_legit == False:
-                print('You choose a wrong card,\n if you have some question digit "help"')
-                return False
-            if v.is_legit == True:
-                print(f'Your choice is: {v}')
-                return True
+def is_legit(index, hand, legit_cards):
+    if index > len(hands):
+        print('choose a position number from your hand list')
+        return False
+    if not legit_cards or hand[index] in legit_cards:
+        print(f'Your choice is: {hand[index]}')
+        return True
+    print('You choose a wrong card\n')
+    return False
+                

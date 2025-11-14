@@ -18,7 +18,7 @@ Ciareti uses a **traditional 40-card Italian deck**, divided into four suits:
 **BASTONI (Clubs)**, **COPPE (Cups)**, **DENARI (Coins)**, and **SPADE (Swords)** —  
 each suit contains cards from **1 to 10**.
 
-![cards](https://github.com/LoSquadrato/ciaretigame/blob/main/assets/cards.jpg =250x)
+![cards](https://github.com/LoSquadrato/ciaretigame/blob/main/assets/cards.jpg)
 >Treviso-style decks are bright and colorful —  
 > every number corresponds to a group of cups, coins, clubs, or swords.
 
