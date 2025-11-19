@@ -1,77 +1,111 @@
-from random import choices
-from functools import reduce
+import random
 
-from core.player import Player
-from core.deck import deck_builder
+from core.player import *
+from core.card import *
+from core.valid_input import *
 
-
-def play_round(players):
-    while True:
-        pot = check_player(players)
-        winner = check_winner(pot)
-        winner.assign_score(pot)
-        if not winner.hand:      
-            for p in players:
-                final_score_calc(p)
-                print(f'{p.name} scored {p.score} points')
-            break
-        players = change_round(winner)
-    return players
-
-# check if player is human or bot, different behaviours for playing card
-def check_player(players):
-    pot = []
-    try:
-        for player in players:
-            legit_cards = []
-            print(f"\n{player.name}'s turn. Your hand:")
-            for i, v in enumerate(player.hand, start=1):
-                print(f'{i} -> {v}')
-            if pot:
-                lead_suit = pot[0].suit
-                legit_cards = [c for c in player.hand if c.suit == lead_suit]
-            if player.is_human:
-                card = player.choose_card(pot)
-                player.hand.remove(card)
-                print(f'{player.name} play: {card}')
-            else:
-                if legit_cards:
-                    card = legit_cards[0]          
-                    player.hand.remove(card)
-                else:
-                    card = player.hand.pop(0)   
-                print(f"{player.name} (BOT) plays: {card}")
-            card.player = player
-            pot.append(card)
-            print(pot)
-        return pot
-    except Exception as e:
-        print(f'check_player ERROR: {e}')
-        return pot
-
-def check_winner(pot):
-    winner_card = pot[0]
-    for c in pot:
-        if c > winner_card:
-                winner_card = c
-    return winner_card.player
-
-# change round order of players
-def change_round(player, new_round = []):
-    if player is None:
-        return None
-    new_round.append(player)
-    if player.next == new_round[0]:
-        return new_round
-    print(new_round)
-    return change_round(player.next, new_round)
-
-# assign the trick bonus, empty pile stack
-def final_score_calc(player):
-    if not player.pile:
-        player.score += 55
-    player.pile.clear()
+class GiocoCarte:
+    def __init__(self, nomi_giocatori):
+        if nomi_giocatori is None:
+            nomi_giocatori = [f"Giocatore {i+1}" for i in range(4)]
+        
+        self.giocatori = [Giocatore(nome) for nome in nomi_giocatori]
+        self.mazzo: List[Carta] = []
+        self.turno_corrente = 0
+        self.inizializza_mazzo()
     
+    def inizializza_mazzo(self):
+        # Crea il mazzo
+        self.mazzo = [Card(valore, seme) for seme in Seme for valore in range(1, 11)]
+        random.shuffle(self.mazzo)
+    
+    def distribuisci_carte(self):
+        # Distribuisce 10 carte a ciascun giocatore
+        for i, carta in enumerate(self.mazzo):
+            self.giocatori[i % 4].ricevi_carta(carta)
+        print("=== CARTE DISTRIBUITE ===")
+        for giocatore in self.giocatori:
+            print(f"{giocatore.nome}: {sorted(giocatore.mano, key=lambda c: (c.seme.name, c.valore))}")
+        print()
+    
+    def gioca_mano(self, primo_giocatore_idx):
+        carte_giocate = []  # (indice_giocatore, carta)
+        seme_primo = None
+        
+        print(f"\n--- Inizia la mano: {self.giocatori[primo_giocatore_idx].nome} ---")
+        
+        for i in range(4):
+            idx_giocatore = (primo_giocatore_idx + i) % 4
+            giocatore = self.giocatori[idx_giocatore]
+            
+            # Determina carte giocabili
+            carte_giocabili = giocatore.carte_giocabili(seme_primo)
+            
+            print(f"\n{giocatore.nome} - Mano: {giocatore.mano}")
+            print(f"Carte giocabili: {[giocatore.mano[i] for i in carte_giocabili]}")
+            
+            # Opzione is_umano per prossima implematazione
+            if giocatore.is_umano:
+                indice_scelto = input_selezione_carta()
+            else:
+                indice_scelto = carte_giocabili[0]
 
-
+            carta_giocata = giocatore.gioca_carta(indice_scelto)
+            
+            print(f">>> {giocatore.nome} gioca: {carta_giocata}")
+            
+            if seme_primo is None:
+                seme_primo = carta_giocata.seme
+                print(f"Seme di mano: {seme_primo.value}")
+            
+            carte_giocate.append((idx_giocatore, carta_giocata))
+        
+        # Determina vincitore: carta più alta del seme di mano
+        vincitore_idx, carta_vincente = max(
+            [(idx, carta) for idx, carta in carte_giocate if carta.seme == seme_primo],
+            key=lambda x: x[1].valore
+        )
+        
+        # Il vincitore prende tutte le carte
+        vincitore = self.giocatori[vincitore_idx]
+        for _, carta in carte_giocate:
+            vincitore.carte_prese.append(carta)
+        
+        print(f"\n🏆 {vincitore.nome} vince la mano con {carta_vincente}!")
+        print(f"Carte prese: {[c for _, c in carte_giocate]}")
+        
+        return vincitore_idx
+    
+    def calcola_vincitore(self):
+                
+        print("\n" + "=" * 50)
+        print("RISULTATI FINALI")
+        print("=" * 50)
+                
+        risultati = {}
+                
+        for giocatore in self.giocatori:
+            print(f"\n{giocatore.nome} - Carte prese: {len(giocatore.carte_prese)}")
+                    
+            # Se non ha preso nessuna mano, assegna 55 punti
+            if len(giocatore.carte_prese) == 0:
+                risultati[giocatore.nome] = (55, None)
+                print(f"  ⚠️  Nessuna mano presa → 55 punti di penalità")
+                continue
+            # Calcola punti carte di cuori pescate
+                    
+            punti = giocatore.calcola_punti(Seme.CUORI)
+            print(f"  Hai ottenuto: {punti} punti")               
+            risultati[giocatore.nome] = (punti)
+                    
+                
+                # Determina vincitore
+        vincitore = min(risultati.items(), key=lambda x: x[0])
+                
+        print("\n" + "🎉" * 25)
+        if vincitore[1][1] is None:
+            print(f"VINCITORE: {vincitore[0]} con {vincitore[1][0]} punti")
+        else:
+            print(f"VINCITORE: {vincitore[0]} con {vincitore[1][0]} punti ({vincitore[1][1].value})!")
+        print("🎉" * 25)
 

@@ -1,39 +1,47 @@
 import os 
 import sys
 
-from core.deck import initial_hand
-from core.player import players_in_game
-from core.game import play_round
-from core.valid_input import conf_input
+from core.player import *
+from core.game import *
+from core.card import *
 
-
-def game(players):
-    while True:
-        players = play_round(initial_hand(players))
-        rep = conf_input('How about another game?\n y/N\n')
-        if not rep:
-            break
-    print('Thank you for playing Ciareti !!!')
 
 def main():
-
-    print("Welcome gamer, Ciareti awaits you!!!")
-
     if len(sys.argv) > 1:
         if sys.argv[1] == 'help':
             with open('help.txt') as f:
-                help = f.read()
-                print(help)
-
+                help_text = f.read()
+                print(help_text)
     else:
         try:
-            players = players_in_game()
-            game(players)   
+            gioca_partita()
         except Exception as e:
-            print(f'ERROR! {e}')
+            print(f"ERROR: {e}")
             sys.exit(1)
 
-    # recursively call game func till players say no
+
+def gioca_partita():
+    game = GiocoCarte(['Nicola', 'Ilenia', 'Valentina', 'Bano'])
+    
+    print("=" * 50)
+    print("INIZIO PARTITA")
+    print("=" * 50)
+
+    game.distribuisci_carte()
+    
+    primo_giocatore = 0
+    
+    # Gioca 10 mani (10 carte per giocatore)
+    for mano_num in range(10):
+        print(f"\n{'='*50}")
+        print(f"MANO {mano_num + 1}/10")
+        print(f"{'='*50}")
+        # Il vincitore della mano inizia la mano successiva
+        primo_giocatore = game.gioca_mano(primo_giocatore)
+    
+    # Calcola risultati finali
+    game.calcola_vincitore()
+            
 
 if __name__ == "__main__":
     main()
