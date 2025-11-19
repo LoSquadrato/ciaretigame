@@ -59,6 +59,7 @@ Try to win hands *without collecting any DENARI*, or dodge victory altogether.
 
 You can play a **single round** or set a **target score** (e.g. “first to reach 200 points loses”).
 
+![cards](https://github.com/LoSquadrato/ciaretigame/blob/main/assets/re_di_spade.jpg) 
 ---
 
 ## 💻 How to Play (Digital Version)
@@ -83,17 +84,7 @@ python main.py
 
 Enjoy your descent into strategic madness! 😁
 
-🔮 Roadmap
-
-Planned features and improvements:
-
-🧠 AI opponents with adaptive logic
-
-🔁 Turn and round management
-
-🧾 Automatic scoring and winner declaration
-
-🖼️ Graphical interface (GUI)
+There are no further updates planned for this project, as it’s being reshuffled and fully translated for implementation in Lua and LOVE2D.
 
 ❤️ Author’s Note
 
@@ -104,10 +95,9 @@ It’s a tribute to friendship, chaos, and the strange beauty of trying not to w
 📜 License
 
 This project is released under the MIT License
-.
-Feel free to fork, improve, and share — just don’t forget to play fair 😉
 
 ⭐️ If you enjoy this project...
 
 Give it a star on GitHub!
 It helps others discover Ciareti and keeps the Brenta legend alive ✨
+
